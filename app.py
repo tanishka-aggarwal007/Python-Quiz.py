@@ -8,7 +8,6 @@ st.set_page_config(page_title="Python Quiz", page_icon="🧠")
 st.title("🧠 Python Quiz Application")
 if not st.session_state.start_quiz:
 
-    st.title("🧠 Python Quiz Application")
 
     st.write("### Welcome to the Python Quiz! 🎉")
 
