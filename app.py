@@ -74,7 +74,7 @@ questions = [
     {
        "Question" : " Which method is called when an object is created?",
         "Options" : [
-            "A. init()",
+            "A. init",
             "B. create()",
             "C. init()",
             "D. constructor()"
