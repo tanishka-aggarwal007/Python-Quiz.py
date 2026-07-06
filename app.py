@@ -1,33 +1,25 @@
 import streamlit as st
-if "start_quiz" not in st.session_state:
-    st.session_state.start_quiz = False
-
+import random
 
 st.set_page_config(page_title="Python Quiz", page_icon="🧠")
 
-st.title("🧠 Python Quiz Application")
-if not st.session_state.start_quiz:
+# ---------------- Session State ----------------
+if "start_quiz" not in st.session_state:
+    st.session_state.start_quiz = False
 
+if "player_name" not in st.session_state:
+    st.session_state.player_name = ""
 
-    st.write("### Welcome to the Python Quiz! 🎉")
+if "current_question" not in st.session_state:
+    st.session_state.current_question = 0
 
-    player_name = st.text_input("👤 Enter your Name")
+if "score" not in st.session_state:
+    st.session_state.score = 0
 
-    if st.button("🚀 Start Quiz"):
+if "quiz_finished" not in st.session_state:
+    st.session_state.quiz_finished = False
 
-        if player_name.strip():
-
-            st.session_state.player_name = player_name
-            st.session_state.start_quiz = True
-            st.rerun()
-
-        else:
-            st.warning("⚠️ Please enter your name first.")
-
-    st.stop()
-
-
-st.success(f"👋 Welcome, {st.session_state.player_name}!")
+# ---------------- Questions ----------------
 questions = [
     {
         "Question": "Who developed Python?",
@@ -71,35 +63,92 @@ questions = [
     }
 ]
 
-score = 0
+# Shuffle questions once
+if "shuffled_questions" not in st.session_state:
+    st.session_state.shuffled_questions = questions.copy()
+    random.shuffle(st.session_state.shuffled_questions)
 
-for i, question in enumerate(questions):
-    st.subheader(f"Question {i+1}")
-    st.write(question["Question"])
+# ---------------- Start Screen ----------------
+if not st.session_state.start_quiz:
+    st.title("🧠 Python Quiz Application")
+    st.write("### Welcome to the Python Quiz! 🎉")
 
-    answer = st.radio(
-        "Choose your answer:",
-        question["Options"],
-        key=i
-    )
+    name = st.text_input("👤 Enter Your Name")
+
+    if st.button("🚀 Start Quiz"):
+        if name.strip():
+            st.session_state.player_name = name
+            st.session_state.start_quiz = True
+            st.rerun()
+        else:
+            st.warning("Please enter your name.")
+
+    st.stop()
+
+# ---------------- Result Screen ----------------
+if st.session_state.quiz_finished:
+    st.title("🎉 Quiz Completed")
+
+    score = st.session_state.score
+    total = len(questions)
+    percentage = (score / total) * 100
+
+    st.success(f"Congratulations, {st.session_state.player_name}!")
+    st.write(f"## Score: {score}/{total}")
+    st.write(f"## Percentage: {percentage:.2f}%")
+
+    if percentage == 100:
+        st.balloons()
+        st.success("🏆 Perfect Score!")
+    elif percentage >= 75:
+        st.success("🎉 Excellent!")
+    elif percentage >= 50:
+        st.info("👍 Good Job!")
+    else:
+        st.warning("📚 Keep Practicing!")
+
+    if st.button("🔄 Play Again"):
+        st.session_state.start_quiz = False
+        st.session_state.current_question = 0
+        st.session_state.score = 0
+        st.session_state.quiz_finished = False
+
+        st.session_state.shuffled_questions = questions.copy()
+        random.shuffle(st.session_state.shuffled_questions)
+
+        st.rerun()
+
+    st.stop()
+
+# ---------------- Quiz Screen ----------------
+st.title("🧠 Python Quiz")
+
+st.success(f"👋 Welcome, {st.session_state.player_name}")
+
+index = st.session_state.current_question
+
+st.progress((index + 1) / len(questions))
+
+st.write(f"### Question {index + 1} of {len(questions)}")
+
+question = st.session_state.shuffled_questions[index]
+
+st.subheader(question["Question"])
+
+answer = st.radio(
+    "Choose your answer:",
+    question["Options"],
+    key=index
+)
+
+if st.button("Next ➡️"):
 
     if answer.startswith(question["Answer"]):
-        score += 1
+        st.session_state.score += 1
 
-st.session_state.player_name
+    if index == len(questions) - 1:
+        st.session_state.quiz_finished = True
+    else:
+        st.session_state.current_question += 1
 
-st.success(f"🎉 Congratulations, {st.session_state.player_name}!")
-
-st.write(f"Your Score: {score}/{len(questions)}")
-
-percentage = (score / len(questions)) * 100
-
-st.write(f"Percentage: {percentage:.2f}%")
-
-if percentage >= 75:
-        st.balloons()
-        st.success("🎉 Excellent!")
-elif percentage >= 50:
-        st.info("👍 Good Job!")
-else:
-        st.warning("📚 Keep Practicing!")
+    st.rerun()
