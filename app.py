@@ -60,6 +60,66 @@ questions = [
             "D. display()"
         ],
         "Answer": "C"
+    }, 
+    {
+        "Question" : "Which keyword is used to import a module?",
+        "Options" : [
+            "A. include",
+            "B. import ",
+            "C. using",
+            "D. require"
+        ],
+        "Answer" : "B"
+    },
+    {
+       "Question" : " Which method is called when an object is created?",
+        "Options" : [
+            "A. init()",
+            "B. create()",
+            "C. init()",
+            "D. constructor()"
+        ],
+        "Answer": "C"
+    },
+    {
+      "Question" : "Which keyword skips the current iteration? ",
+      "Options" : [
+           "A. break ",
+           "B. continue",
+           "C. pass",
+           "D. skip"
+      ],
+      "Answer" : "B"
+    },
+    {
+      "Question" : "Which keyword is used to stop a loop?",
+      "Options" : [
+          "A. break",
+          "B. stop",
+          "C. exit",
+          "D. continue"
+      ],
+      "Answer" : "A"
+    },
+    {
+        "Question" : "Which keyword handles an exception?",
+        "Option" : [
+            "A. catch", 
+            "B. except",
+            "C. error",
+            "D. finally"
+        ],
+        "Answer" : "B"
+    },
+    {
+        "Question" : "Which data type is mutable?",
+        "Option" : [ 
+            "A. tuple",
+            "B. list",
+            "C. string",  
+            "D. frozenset"
+           ],
+           "Answer" : "B"
     }
 ]
 
