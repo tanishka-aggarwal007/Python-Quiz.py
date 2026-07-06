@@ -103,7 +103,7 @@ questions = [
     },
     {
         "Question" : "Which keyword handles an exception?",
-        "Option" : [
+        "Options" : [
             "A. catch", 
             "B. except",
             "C. error",
@@ -113,7 +113,7 @@ questions = [
     },
     {
         "Question" : "Which data type is mutable?",
-        "Option" : [ 
+        "Options" : [ 
             "A. tuple",
             "B. list",
             "C. string",  
